@@ -1,0 +1,7 @@
+A UIView object in iOS has three primary responsibilities: (1) rendering content on the screen, (2) handling user interactions such as touches and gestures, and (3) managing layout and subviews within the view hierarchy.
+
+In Apple’s documentation, a view embedded in another view is called a subview. The parent view that contains it is referred to as the superview.
+
+A view’s frame is a CGRect that defines its position and size relative to its superview’s coordinate system. It includes the origin (x, y) and dimensions (width, height).
+
+The bounds of a view, by contrast, define its internal coordinate system. Bounds typically start at (0, 0) and describe the size of the view’s drawable area. While frame is used for positioning in the parent, bounds are used for internal layout and drawing.
