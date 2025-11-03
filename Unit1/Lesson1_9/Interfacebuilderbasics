@@ -1,1 +1,18 @@
+import UIKit
 
+class ViewController: UIViewController {
+
+    // MARK: - Outlets
+    @IBOutlet weak var mainLabel: UILabel!
+
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Initial setup if needed
+    }
+
+    // MARK: - Actions
+    @IBAction func changeTitle(_ sender: UIButton) {
+        mainLabel.text = "This app rocks!"
+    }
+}
