@@ -1,26 +1,36 @@
-/*:
-## Exercise - Methods
- 
- A `Book` struct has been created for you below. Add an instance method on `Book` called `description` that will print out facts about the book. Then create an instance of `Book` and call this method on that instance.
- */
+// Book struct with an instance method
 struct Book {
     var title: String
     var author: String
     var pages: Int
     var price: Double
     
+    // Instance method to print facts about the book
+    func description() {
+        print("\"\(title)\" by \(author) has \(pages) pages and costs $\(price).")
+    }
 }
 
+// Create an instance of Book and call description()
+let myBook = Book(title: "The Pragmatic Programmer", author: "Andrew Hunt and David Thomas", pages: 352, price: 42.99)
+myBook.description()
 
-//:  A `Post` struct has been created for you below, representing a generic social media post. Add a mutating method on `Post` called `like` that will increment `likes` by one. Then create an instance of `Post` and call `like()` on it. Print out the `likes` property before and after calling the method to see whether or not the value was incremented.
+
+// Post struct with a mutating method
 struct Post {
     var message: String
     var likes: Int
     var numberOfComments: Int
-
+    
+    // Mutating method to increment likes
+    mutating func like() {
+        likes += 1
+    }
 }
 
+// Create an instance of Post and test the like() method
+var post = Post(message: "Hello, Swift world!", likes: 0, numberOfComments: 2)
 
-/*:
-[Previous](@previous)  |  page 5 of 10  |  [Next: App Exercise - Workout Functions](@next)
- */
+print("Likes before: \(post.likes)")
+post.like()
+print("Likes after: \(post.likes)")
