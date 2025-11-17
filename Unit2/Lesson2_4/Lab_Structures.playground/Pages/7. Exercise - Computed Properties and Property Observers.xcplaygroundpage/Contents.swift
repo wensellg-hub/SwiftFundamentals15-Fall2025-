@@ -1,38 +1,60 @@
-/*:
-## Exercise - Computed Properties and Property Observers
- 
- The `Rectangle` struct below has two properties, one for width and one for height. Add a computed property that computes the area of the rectangle (i.e. width * height). Create an instance of `Rectangle` and print the `area` property.
- */
+// Rectangle struct with computed property
 struct Rectangle {
     var width: Int
     var height: Int
     
+    // Computed property for area
+    var area: Int {
+        return width * height
+    }
 }
 
+// Create an instance and print area
+let rect = Rectangle(width: 10, height: 5)
+print("The area of the rectangle is \(rect.area).")
 
-/*:
- In the `Height` struct below, height is represented in both inches and centimeters. However, if `heightInInches` is changed, `heightInCentimeters` should also adjust to match it. Add a `didSet` to each property that will check if the other property is what it should be, and if not, sets the proper value. If you set the value of the other property even though it already has the right value, you will end up with an infinite loop of each property setting the other.
- 
- Create an instance of `Height` and then change one of its properties. Print out the other property to ensure that it was adjusted accordingly.
- */
+
+// Height struct with property observers
 struct Height {
-    var heightInInches: Double
+    var heightInInches: Double {
+        didSet {
+            // Update centimeters only if needed
+            let converted = heightInInches * 2.54
+            if abs(heightInCentimeters - converted) > 0.0001 {
+                heightInCentimeters = converted
+            }
+        }
+    }
     
-    var heightInCentimeters: Double
+    var heightInCentimeters: Double {
+        didSet {
+            // Update inches only if needed
+            let converted = heightInCentimeters / 2.54
+            if abs(heightInInches - converted) > 0.0001 {
+                heightInInches = converted
+            }
+        }
+    }
     
     init(heightInInches: Double) {
         self.heightInInches = heightInInches
-        self.heightInCentimeters = heightInInches*2.54
+        self.heightInCentimeters = heightInInches * 2.54
     }
     
     init(heightInCentimeters: Double) {
         self.heightInCentimeters = heightInCentimeters
-        self.heightInInches = heightInCentimeters/2.54
+        self.heightInInches = heightInCentimeters / 2.54
     }
 }
 
+// Test Height struct
+var personHeight = Height(heightInInches: 65)
+print("Initial height: \(personHeight.heightInInches) inches, \(personHeight.heightInCentimeters) cm")
 
+// Change inches and see centimeters update
+personHeight.heightInInches = 70
+print("Updated height: \(personHeight.heightInInches) inches, \(personHeight.heightInCentimeters) cm")
 
-/*:
-[Previous](@previous)  |  page 7 of 10  |  [Next: App Exercise - Mile Times and Congratulations](@next)
- */
+// Change centimeters and see inches update
+personHeight.heightInCentimeters = 180
+print("Updated height: \(personHeight.heightInInches) inches, \(personHeight.heightInCentimeters) cm")
