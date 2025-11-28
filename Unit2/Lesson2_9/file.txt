@@ -1,1 +1,40 @@
-{}
+import UIKit
+
+class ViewController: UIViewController {
+
+    // MARK: - Outlets for Image Views
+    @IBOutlet weak var abolethImageView: UIImageView!
+    @IBOutlet weak var abolethSpawnImageView: UIImageView!
+    @IBOutlet weak var chuulImageView: UIImageView!
+    @IBOutlet weak var abberantZealotImageView: UIImageView!
+    @IBOutlet weak var infectedTownsfolkImageView: UIImageView!
+    @IBOutlet weak var gooLockImageView: UIImageView!
+
+    // MARK: - Outlets for Labels
+    @IBOutlet weak var abolethLabel: UILabel!
+    @IBOutlet weak var abolethSpawnLabel: UILabel!
+    @IBOutlet weak var chuulLabel: UILabel!
+    @IBOutlet weak var abberantZealotLabel: UILabel!
+    @IBOutlet weak var infectedTownsfolkLabel: UILabel!
+    @IBOutlet weak var gooLockLabel: UILabel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Assign images from Assets
+        abolethImageView.image = UIImage(named: "Aboleth")
+        abolethSpawnImageView.image = UIImage(named: "AbolethSpawn")
+        chuulImageView.image = UIImage(named: "Chuul")
+        abberantZealotImageView.image = UIImage(named: "AbberantZealot")
+        infectedTownsfolkImageView.image = UIImage(named: "infectedTownsfolk")
+        gooLockImageView.image = UIImage(named: "GOOlock")
+
+        // Assign descriptive labels
+        abolethLabel.text = "Abberation from before time"
+        abolethSpawnLabel.text = "Humanoid transformed by Aboleth Influence"
+        chuulLabel.text = "Creature crafted to serve the Aboleth"
+        abberantZealotLabel.text = "Enhanced Cultist"
+        infectedTownsfolkLabel.text = "Citizens infected by abberant influence"
+        gooLockLabel.text = "Warlock of the Great Old One"
+    }
+}
