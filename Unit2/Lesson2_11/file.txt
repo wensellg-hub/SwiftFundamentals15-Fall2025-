@@ -1,1 +1,29 @@
-{}
+import UIKit
+
+class ViewController: UIViewController {
+
+    @IBOutlet weak var displayLabel: UILabel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        displayLabel.text = "0"
+    }
+
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        guard let title = sender.currentTitle else { return }
+
+        switch title {
+        case "Clear":
+            displayLabel.text = "0"
+        case "=":
+            // Add evaluation logic here
+            break
+        default:
+            if displayLabel.text == "0" {
+                displayLabel.text = title
+            } else {
+                displayLabel.text?.append(title)
+            }
+        }
+    }
+}
