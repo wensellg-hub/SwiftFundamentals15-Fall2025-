@@ -2,14 +2,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // MARK: - Outlets
-    @IBOutlet weak var treeImageView: UIImageView!
-    @IBOutlet weak var wordLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet var letterButtons: [UIButton]!
-    
-    // MARK: - Properties
-    var listOfWords = ["swift", "apple", "pie", "coding", "fun"]
+    var listOfWords = ["swift", "developer", "apple", "pie", "hangman"]
     let incorrectMovesAllowed = 7
     
     var totalWins = 0 {
@@ -17,6 +10,7 @@ class ViewController: UIViewController {
             newRound()
         }
     }
+    
     var totalLosses = 0 {
         didSet {
             newRound()
@@ -25,23 +19,29 @@ class ViewController: UIViewController {
     
     var currentGame: Game!
     
-    // MARK: - Lifecycle
+    @IBOutlet var letterButtons: [UIButton]!
+    @IBOutlet weak var treeImageView: UIImageView!
+    @IBOutlet weak var correctWordLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         newRound()
     }
     
-    // MARK: - Game Setup
     func newRound() {
-        if listOfWords.isEmpty {
-            listOfWords = ["swift", "apple", "pie", "coding", "fun"] // refill words
+        if !listOfWords.isEmpty {
+            let newWord = listOfWords.removeFirst()
+            currentGame = Game(
+                word: newWord,
+                incorrectMovesRemaining: incorrectMovesAllowed,
+                guessedLetters: []
+            )
+            enableLetterButtons(true)
+            updateUI()
+        } else {
+            enableLetterButtons(false)
         }
-        let newWord = listOfWords.removeFirst()
-        currentGame = Game(word: newWord,
-                           incorrectMovesRemaining: incorrectMovesAllowed,
-                           guessedLetters: [])
-        enableLetterButtons(true)
-        updateUI()
     }
     
     func enableLetterButtons(_ enable: Bool) {
@@ -50,43 +50,27 @@ class ViewController: UIViewController {
         }
     }
     
-    // MARK: - UI Updates
     func updateUI() {
-        wordLabel.text = currentGame.formattedWord
+        correctWordLabel.text = currentGame.formattedWord
         scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses)"
         treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining)")
-        
-        // End game checks
+    }
+    
+    func updateGameState() {
         if currentGame.incorrectMovesRemaining == 0 {
             totalLosses += 1
-            showEndGameAlert(didWin: false)
-        } else if !currentGame.formattedWord.contains("_") {
+        } else if currentGame.word == currentGame.formattedWord {
             totalWins += 1
-            showEndGameAlert(didWin: true)
+        } else {
+            updateUI()
         }
     }
     
-    // MARK: - End Game Alert
-    func showEndGameAlert(didWin: Bool) {
-        let title = didWin ? "You Won!" : "Game Over"
-        let message = didWin ? "Congratulations, you guessed the word!" : "Better luck next time."
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let replayAction = UIAlertAction(title: "Replay", style: .default) { _ in
-            self.newRound()
-        }
-        
-        alert.addAction(replayAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - Actions
     @IBAction func letterButtonPressed(_ sender: UIButton) {
         sender.isEnabled = false
         let letterString = sender.title(for: .normal)!
         let letter = Character(letterString.lowercased())
         currentGame.playerGuessed(letter: letter)
-        updateUI()
+        updateGameState()
     }
 }
