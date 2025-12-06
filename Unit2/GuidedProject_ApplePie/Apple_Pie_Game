@@ -53,7 +53,9 @@ class ViewController: UIViewController {
     func updateUI() {
         correctWordLabel.text = currentGame.formattedWord
         scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses)"
-        treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining)")
+        
+        // Updated to use your PDF assets
+        treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining).pdf")
     }
     
     func updateGameState() {
